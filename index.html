@@ -1,23 +1,377 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>DemoBank</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DemoBank</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #07152f, #102d63, #07152f);
+    color: white;
+}
+
+.container {
+    width: 92%;
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 0;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #5da9ff;
+}
+
+.profile {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #3182ce;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Demo warning */
+.demo {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-bottom: 20px;
+    color: #dbeafe;
+}
+
+/* Welcome */
+.welcome {
+    margin-bottom: 20px;
+}
+
+.welcome h1 {
+    font-size: 30px;
+    margin-bottom: 6px;
+}
+
+.welcome p {
+    color: #b9c7df;
+}
+
+/* Balance card */
+.balance-card {
+    background: linear-gradient(135deg, #1769e0, #4c8df5);
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+    margin-bottom: 25px;
+}
+
+.balance-label {
+    color: #dceaff;
+    font-size: 14px;
+}
+
+.balance {
+    font-size: 38px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.account {
+    color: #dceaff;
+    font-size: 13px;
+}
+
+/* Action buttons */
+.actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.action {
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    padding: 18px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.action:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.16);
+}
+
+.icon {
+    font-size: 24px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Transactions */
+.section-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.transactions {
+    background: rgba(255,255,255,0.08);
+    border-radius: 18px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.transaction {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.transaction:last-child {
+    border-bottom: none;
+}
+
+.transaction-name {
+    font-weight: bold;
+}
+
+.transaction-date {
+    color: #9fb1cd;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.amount {
+    font-weight: bold;
+}
+
+.green {
+    color: #4ade80;
+}
+
+.red {
+    color: #fb7185;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 400px;
+    background: #102347;
+    padding: 25px;
+    border-radius: 20px;
+}
+
+.modal-box h2 {
+    margin-bottom: 20px;
+}
+
+.modal-box input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 12px;
+    outline: none;
+}
+
+.modal-box button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #3182ce;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close {
+    background: transparent !important;
+    margin-top: 8px;
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+
+    .actions {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .welcome h1 {
+        font-size: 25px;
+    }
+
+    .balance {
+        font-size: 31px;
+    }
+
+    .transaction {
+        padding: 15px 10px;
+    }
+}
+</style>
 </head>
 
 <body>
-    <h1>DemoBank</h1>
 
-    <h2>Welcome to DemoBank</h2>
+<div class="container">
 
-    <p>This is a demo banking website.</p>
+<header>
+    <div class="logo">Demo<span>Bank</span></div>
+    <div class="profile">W</div>
+</header>
 
-    <h3>Demo Balance</h3>
-    <p>₦50,000.00</p>
+<div class="demo">
+    ⚠️ DEMO WEBSITE — No real banking or money transactions take place.
+</div>
 
-    <h3>Recent Transactions</h3>
-    <p>₦5,000 - Demo Deposit</p>
-    <p>₦2,000 - Demo Payment</p>
+<div class="welcome">
+    <h1>Welcome back, Wisdom 👋</h1>
+    <p>Here's your account overview.</p>
+</div>
 
-    <button>Send Money</button>
+<div class="balance-card">
+    <div class="balance-label">Available Balance</div>
+    <div class="balance" id="balance">₦50,000.00</div>
+    <div class="account">Demo Account •••• 4821</div>
+</div>
+
+<div class="actions">
+
+    <button class="action" onclick="openModal('Send Money')">
+        <span class="icon">💸</span>
+        Send Money
+    </button>
+
+    <button class="action" onclick="openModal('Receive Money')">
+        <span class="icon">📥</span>
+        Receive
+    </button>
+
+    <button class="action" onclick="openModal('Transfer')">
+        <span class="icon">🔄</span>
+        Transfer
+    </button>
+
+    <button class="action" onclick="showMessage()">
+        <span class="icon">📊</span>
+        Statistics
+    </button>
+
+</div>
+
+<h2 class="section-title">Recent Transactions</h2>
+
+<div class="transactions">
+
+    <div class="transaction">
+        <div>
+            <div class="transaction-name">Demo Deposit</div>
+            <div class="transaction-date">Today • 10:32 AM</div>
+        </div>
+        <div class="amount green">+₦5,000</div>
+    </div>
+
+    <div class="transaction">
+        <div>
+            <div class="transaction-name">Demo Payment</div>
+            <div class="transaction-date">Yesterday • 4:15 PM</div>
+        </div>
+        <div class="amount red">-₦2,000</div>
+    </div>
+
+    <div class="transaction">
+        <div>
+            <div class="transaction-name">Demo Transfer</div>
+            <div class="transaction-date">Aug 7 • 2:20 PM</div>
+        </div>
+        <div class="amount red">-₦3,500</div>
+    </div>
+
+</div>
+
+</div>
+
+<!-- Modal -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-box">
+
+        <h2 id="modalTitle">Send Money</h2>
+
+        <input type="text" placeholder="Demo recipient name">
+
+        <input type="number" placeholder="Demo amount">
+
+        <button onclick="demoAction()">Continue</button>
+
+        <button class="close" onclick="closeModal()">Cancel</button>
+
+    </div>
+
+</div>
+
+<script>
+
+function openModal(title) {
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+function demoAction() {
+    alert("This is a demonstration only. No real transaction was made.");
+    closeModal();
+}
+
+function showMessage() {
+    alert("Demo statistics will be added later.");
+}
+
+</script>
+
 </body>
 </html>
