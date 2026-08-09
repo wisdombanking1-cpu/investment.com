@@ -3,502 +3,351 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>DemoBank — Banking Simulator</title>
 
 <style>
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #07111f;
-    color: #ffffff;
-    min-height: 100vh;
+  background: #f4f7fb;
+  color: #172033;
+  transition: .3s;
 }
 
-button {
-    font-family: inherit;
+body.dark {
+  background: #101522;
+  color: #f5f7ff;
 }
 
 .app {
-    display: flex;
-    min-height: 100vh;
+  max-width: 1150px;
+  margin: auto;
+  padding: 20px;
 }
 
-/* SIDEBAR */
-
-.sidebar {
-    width: 245px;
-    background: #0b1728;
-    border-right: 1px solid rgba(255,255,255,.08);
-    padding: 25px 15px;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
 }
 
 .logo {
-    font-size: 25px;
-    font-weight: bold;
-    padding: 0 15px 30px;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 .logo span {
-    color: #3b9cff;
+  color: #2563eb;
 }
 
-.demo-badge {
-    font-size: 10px;
-    background: rgba(59,156,255,.12);
-    color: #65b1ff;
-    border: 1px solid rgba(59,156,255,.3);
-    padding: 7px;
-    border-radius: 8px;
-    text-align: center;
-    margin-bottom: 25px;
+.header-buttons button,
+button {
+  border: 0;
+  cursor: pointer;
 }
 
-.nav button {
-    width: 100%;
-    border: none;
-    background: transparent;
-    color: #9aacbf;
-    padding: 13px 15px;
-    border-radius: 10px;
-    text-align: left;
-    margin-bottom: 5px;
-    cursor: pointer;
-    font-size: 14px;
+.icon-btn {
+  padding: 10px 13px;
+  border-radius: 12px;
+  background: white;
+  margin-left: 7px;
 }
 
-.nav button:hover,
-.nav button.active {
-    background: #142a46;
-    color: white;
+.dark .icon-btn {
+  background: #1d2638;
+  color: white;
 }
 
-.nav-icon {
-    display: inline-block;
-    width: 25px;
+.hero {
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+  border-radius: 24px;
+  padding: 30px;
+  margin-bottom: 20px;
+  box-shadow: 0 15px 35px rgba(37,99,235,.2);
 }
 
-/* MAIN */
-
-.main {
-    margin-left: 245px;
-    width: calc(100% - 245px);
-    padding: 25px;
-}
-
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
-.topbar h1 {
-    font-size: 25px;
-}
-
-.topbar p {
-    color: #8093aa;
-    margin-top: 5px;
-    font-size: 13px;
-}
-
-.profile {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: linear-gradient(135deg,#2684ff,#6c5ce7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-}
-
-/* PAGES */
-
-.page {
-    display: none;
-}
-
-.page.active {
-    display: block;
-}
-
-/* BALANCE */
-
-.balance-card {
-    background: linear-gradient(135deg,#1167df,#4d63e8);
-    border-radius: 22px;
-    padding: 28px;
-    min-height: 210px;
-    box-shadow: 0 20px 45px rgba(0,0,0,.25);
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 22px;
-}
-
-.balance-card:after {
-    content: "";
-    position: absolute;
-    width: 230px;
-    height: 230px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.08);
-    right: -80px;
-    top: -90px;
-}
-
-.balance-label {
-    color: #dbe9ff;
-    font-size: 13px;
+.hero small {
+  opacity: .8;
 }
 
 .balance {
-    font-size: 40px;
-    font-weight: bold;
-    margin: 13px 0;
+  font-size: 40px;
+  font-weight: bold;
+  margin: 12px 0 5px;
 }
 
 .account {
-    color: #dbe9ff;
-    font-size: 12px;
+  opacity: .85;
 }
 
-/* QUICK ACTIONS */
-
 .actions {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 12px;
-    margin-bottom: 25px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 25px;
 }
 
 .action {
-    background: #0d1c30;
-    border: 1px solid rgba(255,255,255,.07);
-    color: white;
-    padding: 18px 10px;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: .2s;
+  padding: 15px 10px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.16);
+  color: white;
+  font-weight: bold;
 }
 
 .action:hover {
-    transform: translateY(-3px);
-    background: #142a46;
+  background: rgba(255,255,255,.28);
 }
 
-.action-icon {
-    font-size: 23px;
-    display: block;
-    margin-bottom: 8px;
+.cards {
+  display: grid;
+  grid-template-columns: 1.3fr .7fr;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
-.action-text {
-    font-size: 12px;
+.card,
+.panel {
+  background: white;
+  border-radius: 20px;
+  padding: 23px;
+  box-shadow: 0 8px 25px rgba(20,30,60,.07);
 }
 
-/* GRID */
-
-.grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 20px;
+.dark .card,
+.dark .panel {
+  background: #182132;
 }
 
-.card {
-    background: #0d1c30;
-    border: 1px solid rgba(255,255,255,.07);
-    border-radius: 18px;
-    padding: 20px;
+.bank-card {
+  min-height: 210px;
+  background: linear-gradient(135deg,#111827,#334155);
+  color: white;
+  border-radius: 20px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.card h2 {
-    font-size: 17px;
-    margin-bottom: 18px;
+.chip {
+  width: 45px;
+  height: 32px;
+  border-radius: 7px;
+  background: #d1d5db;
 }
 
-.transaction {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(255,255,255,.06);
+.card-number {
+  font-size: 21px;
+  letter-spacing: 3px;
 }
 
-.transaction:last-child {
-    border-bottom: none;
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
 }
 
-.tx-left {
-    display: flex;
-    gap: 12px;
-    align-items: center;
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
-.tx-icon {
-    width: 38px;
-    height: 38px;
-    background: #142a46;
-    border-radius: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.tx-name {
-    font-size: 13px;
-    font-weight: bold;
-}
-
-.tx-date {
-    color: #71859c;
-    font-size: 11px;
-    margin-top: 4px;
+.stat strong {
+  display: block;
+  font-size: 25px;
+  margin-top: 8px;
 }
 
 .green {
-    color: #45d483;
+  color: #16a34a;
 }
 
 .red {
-    color: #ff687d;
+  color: #dc2626;
 }
 
-/* TRADING */
-
-.market {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 15px;
+.transactions {
+  list-style: none;
 }
 
-.market-card {
-    background: #0d1c30;
-    border: 1px solid rgba(255,255,255,.07);
-    border-radius: 17px;
-    padding: 20px;
+.transactions li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.market-name {
-    color: #9aacbf;
-    font-size: 12px;
+.dark .transactions li {
+  border-color: #303a4d;
 }
 
-.market-price {
-    font-size: 22px;
-    font-weight: bold;
-    margin: 12px 0;
+.transaction-name {
+  font-weight: bold;
 }
 
-.market-change {
-    color: #45d483;
-    font-size: 12px;
+.transaction-date {
+  font-size: 12px;
+  opacity: .6;
+  margin-top: 4px;
 }
 
-/* FORMS */
-
-.form-card {
-    max-width: 650px;
-    background: #0d1c30;
-    border: 1px solid rgba(255,255,255,.07);
-    border-radius: 20px;
-    padding: 25px;
+nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  overflow-x: auto;
 }
 
-.form-card h2 {
-    margin-bottom: 7px;
+.nav-btn {
+  padding: 11px 17px;
+  border-radius: 12px;
+  background: white;
+  color: #172033;
+  white-space: nowrap;
 }
 
-.form-description {
-    color: #8093aa;
-    font-size: 13px;
-    margin-bottom: 25px;
+.dark .nav-btn {
+  background: #1d2638;
+  color: white;
 }
 
-.form-group {
-    margin-bottom: 17px;
+.nav-btn.active {
+  background: #2563eb;
+  color: white;
 }
 
-.form-group label {
-    display: block;
-    color: #9aacbf;
-    font-size: 12px;
-    margin-bottom: 7px;
+.page {
+  display: none;
 }
 
-.form-group input {
-    width: 100%;
-    background: #071525;
-    border: 1px solid #213751;
-    border-radius: 10px;
-    padding: 14px;
-    color: white;
-    outline: none;
-}
-
-.form-group input:focus {
-    border-color: #3187ff;
+.page.active {
+  display: block;
 }
 
 .primary {
-    width: 100%;
-    border: none;
-    background: #267cf0;
-    color: white;
-    padding: 14px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
+  background: #2563eb;
+  color: white;
+  padding: 13px 20px;
+  border-radius: 12px;
+  font-weight: bold;
 }
 
-.primary:hover {
-    background: #3b8cff;
+.secondary {
+  background: #e8eefc;
+  color: #2563eb;
+  padding: 13px 20px;
+  border-radius: 12px;
+  font-weight: bold;
 }
 
-/* ACCOUNT */
-
-.account-box {
-    background: #0d1c30;
-    border-radius: 20px;
-    padding: 25px;
-    max-width: 650px;
+.dark .secondary {
+  background: #26344d;
 }
 
-.account-number {
-    font-size: 25px;
-    font-weight: bold;
-    margin: 12px 0;
-    letter-spacing: 2px;
+input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #d6dbe5;
+  border-radius: 12px;
+  margin: 7px 0 15px;
+  font-size: 15px;
 }
 
-.info {
-    color: #8093aa;
-    font-size: 13px;
-    line-height: 1.8;
+.dark input {
+  background: #111827;
+  color: white;
+  border-color: #374151;
 }
 
-/* MODAL */
+label {
+  font-size: 13px;
+  font-weight: bold;
+}
 
 .modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.75);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 10;
 }
 
 .modal.show {
-    display: flex;
+  display: flex;
 }
 
 .modal-box {
-    background: #0d1c30;
-    border: 1px solid #243a56;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 430px;
-    padding: 25px;
+  background: white;
+  width: 100%;
+  max-width: 450px;
+  border-radius: 22px;
+  padding: 25px;
+}
+
+.dark .modal-box {
+  background: #182132;
 }
 
 .modal-box h2 {
-    margin-bottom: 8px;
-}
-
-.modal-box p {
-    color: #8093aa;
-    font-size: 12px;
-    margin-bottom: 20px;
-}
-
-.modal-box input {
-    width: 100%;
-    padding: 13px;
-    background: #071525;
-    color: white;
-    border: 1px solid #213751;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    outline: none;
+  margin-bottom: 8px;
 }
 
 .close {
-    width: 100%;
-    border: none;
-    background: transparent;
-    color: #8fa2b9;
-    padding: 12px;
-    cursor: pointer;
+  float: right;
+  background: none;
+  font-size: 22px;
 }
 
-/* MOBILE */
-
-.mobile-nav {
-    display: none;
+.notice {
+  padding: 14px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  font-size: 13px;
 }
 
-@media(max-width:800px) {
+.dark .notice {
+  background: #172554;
+  color: #bfdbfe;
+}
 
-    .sidebar {
-        display: none;
-    }
+footer {
+  text-align: center;
+  opacity: .55;
+  padding: 30px 0;
+  font-size: 13px;
+}
 
-    .main {
-        margin-left: 0;
-        width: 100%;
-        padding: 18px 15px 90px;
-    }
+@media(max-width:750px) {
+  .actions {
+    grid-template-columns: repeat(2,1fr);
+  }
 
-    .grid {
-        grid-template-columns: 1fr;
-    }
+  .cards {
+    grid-template-columns: 1fr;
+  }
 
-    .actions {
-        grid-template-columns: repeat(2,1fr);
-    }
+  .stats {
+    grid-template-columns: 1fr;
+  }
 
-    .market {
-        grid-template-columns: 1fr;
-    }
-
-    .balance {
-        font-size: 32px;
-    }
-
-    .mobile-nav {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 65px;
-        background: #0b1728;
-        border-top: 1px solid rgba(255,255,255,.08);
-        z-index: 50;
-        justify-content: space-around;
-    }
-
-    .mobile-nav button {
-        background: transparent;
-        border: none;
-        color: #8fa2b9;
-        font-size: 10px;
-    }
-
-    .mobile-nav button:hover {
-        color: white;
-    }
+  .balance {
+    font-size: 32px;
+  }
 }
 </style>
 </head>
@@ -507,539 +356,460 @@ button {
 
 <div class="app">
 
-<!-- SIDEBAR -->
+<header>
+  <div class="logo">Demo<span>Bank</span></div>
 
-<aside class="sidebar">
-
-    <div class="logo">Demo<span>Bank</span></div>
-
-    <div class="demo-badge">
-        DEMO / SIMULATION ONLY
-    </div>
-
-    <div class="nav">
-
-        <button class="active" onclick="showPage('dashboard',this)">
-            <span class="nav-icon">⌂</span> Dashboard
-        </button>
-
-        <button onclick="showPage('send',this)">
-            <span class="nav-icon">↗</span> Send Money
-        </button>
-
-        <button onclick="showPage('receive',this)">
-            <span class="nav-icon">↓</span> Receive Money
-        </button>
-
-        <button onclick="showPage('trading',this)">
-            <span class="nav-icon">▥</span> Trading
-        </button>
-
-        <button onclick="showPage('transactions',this)">
-            <span class="nav-icon">☷</span> Transactions
-        </button>
-
-        <button onclick="showPage('account',this)">
-            <span class="nav-icon">●</span> My Account
-        </button>
-
-    </div>
-
-</aside>
-
-
-<!-- MAIN -->
-
-<main class="main">
-
-<header class="topbar">
-
-    <div>
-        <h1 id="pageTitle">Dashboard</h1>
-        <p>Welcome to your DemoBank account</p>
-    </div>
-
-    <div class="profile">W</div>
-
+  <div class="header-buttons">
+    <button class="icon-btn" onclick="toggleTheme()">🌙</button>
+    <button class="icon-btn" onclick="showNotifications()">🔔</button>
+  </div>
 </header>
 
+<nav>
+  <button class="nav-btn active" onclick="showPage('home',this)">Overview</button>
+  <button class="nav-btn" onclick="showPage('transactions',this)">Transactions</button>
+  <button class="nav-btn" onclick="showPage('trading',this)">Trading</button>
+  <button class="nav-btn" onclick="showPage('settings',this)">Settings</button>
+</nav>
 
-<!-- DASHBOARD -->
+<!-- HOME -->
 
-<section id="dashboard" class="page active">
+<section id="home" class="page active">
 
-    <div class="balance-card">
+<div class="hero">
 
-        <div class="balance-label">
-            Available Demo Balance
-        </div>
+<small>DEMO ACCOUNT</small>
 
-        <div class="balance" id="balance">
-            ₦50,000.00
-        </div>
+<div class="balance" id="balance">₦50,000.00</div>
 
-        <div class="account">
-            Demo Account •••• 4821
-        </div>
+<div class="account">
+Account •••• 4821
+</div>
 
-    </div>
+<div class="actions">
 
+<button class="action" onclick="openSend()">💸 Send Money</button>
 
-    <div class="actions">
+<button class="action" onclick="openRequest()">📥 Receive</button>
 
-        <button class="action" onclick="showPage('send')">
-            <span class="action-icon">💸</span>
-            <span class="action-text">Send Money</span>
-        </button>
+<button class="action" onclick="createAccount()">👤 Create Account</button>
 
-        <button class="action" onclick="showPage('receive')">
-            <span class="action-icon">📥</span>
-            <span class="action-text">Receive</span>
-        </button>
+<button class="action" onclick="showPage('trading')">📈 Trading</button>
 
-        <button class="action" onclick="showPage('trading')">
-            <span class="action-icon">📈</span>
-            <span class="action-text">Trading</span>
-        </button>
+</div>
+</div>
 
-        <button class="action" onclick="showPage('transactions')">
-            <span class="action-icon">📊</span>
-            <span class="action-text">Transactions</span>
-        </button>
+<div class="cards">
 
-    </div>
+<div class="bank-card">
 
+<div>
+<div class="chip"></div>
+</div>
 
-    <div class="grid">
+<div class="card-number">
+•••• •••• •••• 4821
+</div>
 
-        <div class="card">
+<div class="card-bottom">
+<span>DEMO CARD</span>
+<span>12/30</span>
+</div>
 
-            <h2>Recent Transactions</h2>
+</div>
 
-            <div class="transaction">
-                <div class="tx-left">
-                    <div class="tx-icon">↓</div>
-                    <div>
-                        <div class="tx-name">Demo Deposit</div>
-                        <div class="tx-date">Today • 10:32 AM</div>
-                    </div>
-                </div>
+<div class="card">
 
-                <strong class="green">+₦5,000</strong>
-            </div>
+<h3>Quick Actions</h3>
+<br>
 
-            <div class="transaction">
-                <div class="tx-left">
-                    <div class="tx-icon">↑</div>
-                    <div>
-                        <div class="tx-name">Demo Payment</div>
-                        <div class="tx-date">Yesterday • 4:15 PM</div>
-                    </div>
-                </div>
+<button class="primary" onclick="openSend()">Send money</button>
 
-                <strong class="red">-₦2,000</strong>
-            </div>
+<br><br>
 
-            <div class="transaction">
-                <div class="tx-left">
-                    <div class="tx-icon">↗</div>
-                    <div>
-                        <div class="tx-name">Demo Transfer</div>
-                        <div class="tx-date">Aug 7 • 2:20 PM</div>
-                    </div>
-                </div>
+<button class="secondary" onclick="openRequest()">Request money</button>
 
-                <strong class="red">-₦3,500</strong>
-            </div>
+</div>
 
-        </div>
+</div>
 
+<div class="stats">
 
-        <div class="card">
+<div class="card stat">
+<small>Money In</small>
+<strong class="green">₦15,000</strong>
+</div>
 
-            <h2>Quick Account</h2>
+<div class="card stat">
+<small>Money Out</small>
+<strong class="red">₦7,000</strong>
+</div>
 
-            <p class="info">
-                Account type: Demo Personal Account<br>
-                Account number: •••• 4821<br>
-                Status: Active Demo<br>
-                Currency: Nigerian Naira
-            </p>
+<div class="card stat">
+<small>Demo Investments</small>
+<strong>₦28,500</strong>
+</div>
 
-        </div>
+</div>
 
-    </div>
+<div class="panel">
 
-</section>
+<h2>Recent Transactions</h2>
 
+<ul class="transactions" id="transactionList">
 
-<!-- SEND -->
+<li>
+<div>
+<div class="transaction-name">Demo Deposit</div>
+<div class="transaction-date">Today • Demo transaction</div>
+</div>
+<strong class="green">+₦5,000</strong>
+</li>
 
-<section id="send" class="page">
+<li>
+<div>
+<div class="transaction-name">Demo Payment</div>
+<div class="transaction-date">Yesterday • Demo transaction</div>
+</div>
+<strong class="red">-₦2,000</strong>
+</li>
 
-    <div class="form-card">
+<li>
+<div>
+<div class="transaction-name">Demo Transfer</div>
+<div class="transaction-date">Monday • Demo transaction</div>
+</div>
+<strong class="red">-₦5,000</strong>
+</li>
 
-        <h2>Send Money</h2>
+</ul>
 
-        <p class="form-description">
-            Simulate a transfer to another demo account.
-        </p>
-
-        <div class="form-group">
-            <label>Recipient Account Number</label>
-            <input id="recipient" type="text" placeholder="e.g. 1234567890">
-        </div>
-
-        <div class="form-group">
-            <label>Recipient Name</label>
-            <input id="recipientName" type="text" placeholder="Demo recipient">
-        </div>
-
-        <div class="form-group">
-            <label>Amount</label>
-            <input id="sendAmount" type="number" placeholder="₦0.00">
-        </div>
-
-        <div class="form-group">
-            <label>Description</label>
-            <input id="description" type="text" placeholder="Optional demo description">
-        </div>
-
-        <button class="primary" onclick="confirmTransfer()">
-            Continue
-        </button>
-
-    </div>
+</div>
 
 </section>
-
-
-<!-- RECEIVE -->
-
-<section id="receive" class="page">
-
-    <div class="form-card">
-
-        <h2>Receive Money</h2>
-
-        <p class="form-description">
-            Your demo account information.
-        </p>
-
-        <div class="account-box">
-
-            <p class="info">Demo Account Number</p>
-
-            <div class="account-number">
-                4821 7359 1024
-            </div>
-
-            <p class="info">
-                This account number exists only inside this website simulation.
-            </p>
-
-            <br>
-
-            <button class="primary" onclick="copyDemoAccount()">
-                Copy Demo Account Number
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- TRADING -->
-
-<section id="trading" class="page">
-
-    <div class="card" style="margin-bottom:20px;">
-
-        <h2>Demo Trading</h2>
-
-        <p class="info">
-            Simulated market dashboard. No real trading takes place.
-        </p>
-
-    </div>
-
-    <div class="market">
-
-        <div class="market-card">
-            <div class="market-name">BTC / USDT</div>
-            <div class="market-price">$67,420</div>
-            <div class="market-change">+2.41%</div>
-        </div>
-
-        <div class="market-card">
-            <div class="market-name">ETH / USDT</div>
-            <div class="market-price">$3,421</div>
-            <div class="market-change">+1.82%</div>
-        </div>
-
-        <div class="market-card">
-            <div class="market-name">NGN / USD</div>
-            <div class="market-price">₦1,520</div>
-            <div class="market-change">+0.34%</div>
-        </div>
-
-    </div>
-
-</section>
-
 
 <!-- TRANSACTIONS -->
 
 <section id="transactions" class="page">
 
-    <div class="card">
+<div class="panel">
 
-        <h2>Transaction History</h2>
+<h2>Transaction History</h2>
 
-        <div class="transaction">
-            <div class="tx-left">
-                <div class="tx-icon">↓</div>
-                <div>
-                    <div class="tx-name">Demo Deposit</div>
-                    <div class="tx-date">Today • 10:32 AM</div>
-                </div>
-            </div>
+<br>
 
-            <strong class="green">+₦5,000</strong>
-        </div>
+<input type="text" placeholder="🔍 Search transactions..." oninput="searchTransactions(this.value)">
 
-        <div class="transaction">
-            <div class="tx-left">
-                <div class="tx-icon">↑</div>
-                <div>
-                    <div class="tx-name">Demo Payment</div>
-                    <div class="tx-date">Yesterday • 4:15 PM</div>
-                </div>
-            </div>
+<ul class="transactions" id="history">
 
-            <strong class="red">-₦2,000</strong>
-        </div>
+<li>
+<div>Demo Deposit<div class="transaction-date">Today</div></div>
+<strong class="green">+₦5,000</strong>
+</li>
 
-        <div class="transaction">
-            <div class="tx-left">
-                <div class="tx-icon">↗</div>
-                <div>
-                    <div class="tx-name">Demo Transfer</div>
-                    <div class="tx-date">Aug 7 • 2:20 PM</div>
-                </div>
-            </div>
+<li>
+<div>Demo Payment<div class="transaction-date">Yesterday</div></div>
+<strong class="red">-₦2,000</strong>
+</li>
 
-            <strong class="red">-₦3,500</strong>
-        </div>
+<li>
+<div>Demo Transfer<div class="transaction-date">Monday</div></div>
+<strong class="red">-₦5,000</strong>
+</li>
 
-    </div>
+<li>
+<div>Demo Salary<div class="transaction-date">Last Friday</div></div>
+<strong class="green">+₦15,000</strong>
+</li>
+
+</ul>
+
+</div>
 
 </section>
 
+<!-- TRADING -->
 
-<!-- ACCOUNT -->
+<section id="trading" class="page">
 
-<section id="account" class="page">
+<div class="panel">
 
-    <div class="account-box">
+<h2>📈 Demo Trading</h2>
 
-        <h2>My Demo Account</h2>
+<br>
 
-        <br>
+<div class="notice">
+This is a simulated trading dashboard. No real investments or trades are made.
+</div>
 
-        <p class="info">Account holder</p>
-        <h3>Wisdom</h3>
+<div class="stats">
 
-        <br>
+<div class="card stat">
+<small>Portfolio</small>
+<strong>₦28,500</strong>
+</div>
 
-        <p class="info">Demo account number</p>
-        <div class="account-number">
-            4821 7359 1024
-        </div>
+<div class="card stat">
+<small>Today's Change</small>
+<strong class="green">+2.45%</strong>
+</div>
 
-        <p class="info">
-            Account status: Active Demo<br>
-            Account type: Personal Demo<br>
-            Currency: NGN
-        </p>
+<div class="card stat">
+<small>Available Demo Cash</small>
+<strong>₦10,000</strong>
+</div>
 
-    </div>
+</div>
+
+<h3>Demo Assets</h3>
+
+<ul class="transactions">
+
+<li>
+<span>Bitcoin</span>
+<strong class="green">+4.21%</strong>
+</li>
+
+<li>
+<span>Ethereum</span>
+<strong class="green">+2.17%</strong>
+</li>
+
+<li>
+<span>Demo Stock Fund</span>
+<strong class="red">-0.83%</strong>
+</li>
+
+</ul>
+
+</div>
 
 </section>
 
-</main>
+<!-- SETTINGS -->
+
+<section id="settings" class="page">
+
+<div class="panel">
+
+<h2>⚙️ Settings</h2>
+
+<br>
+
+<button class="secondary" onclick="toggleTheme()">Toggle Dark Mode</button>
+
+<br><br>
+
+<button class="secondary" onclick="alert('Demo notifications are enabled.')">
+Notifications
+</button>
+
+<br><br>
+
+<button class="secondary" onclick="alert('This account is a demonstration account.')">
+Account Information
+</button>
 
 </div>
 
+</section>
 
-<!-- MOBILE NAV -->
-
-<div class="mobile-nav">
-
-    <button onclick="showPage('dashboard')">
-        🏠<br>Home
-    </button>
-
-    <button onclick="showPage('send')">
-        💸<br>Send
-    </button>
-
-    <button onclick="showPage('trading')">
-        📈<br>Trade
-    </button>
-
-    <button onclick="showPage('transactions')">
-        📊<br>History
-    </button>
-
-    <button onclick="showPage('account')">
-        👤<br>Account
-    </button>
+<footer>
+DemoBank • Educational banking simulator • No real money is processed
+</footer>
 
 </div>
 
+<!-- SEND MONEY MODAL -->
 
-<!-- TRANSFER MODAL -->
+<div class="modal" id="sendModal">
 
-<div class="modal" id="confirmModal">
+<div class="modal-box">
 
-    <div class="modal-box">
+<button class="close" onclick="closeModal('sendModal')">×</button>
 
-        <h2>Confirm Demo Transfer</h2>
+<h2>Send Demo Money</h2>
 
-        <p>
-            Review the simulated transaction below.
-        </p>
+<p style="opacity:.65;margin:8px 0 20px;">
+Simulated transfer only
+</p>
 
-        <p id="confirmationText"></p>
+<label>Recipient account number</label>
+<input id="recipient" placeholder="e.g. 1234567890">
 
-        <button class="primary" onclick="completeTransfer()">
-            Confirm Demo Transfer
-        </button>
+<label>Amount</label>
+<input id="amount" type="number" placeholder="₦0.00">
 
-        <button class="close" onclick="closeModal()">
-            Cancel
-        </button>
+<label>Description</label>
+<input id="description" placeholder="What's this for?">
 
-    </div>
+<button class="primary" onclick="sendMoney()" style="width:100%;">
+Continue
+</button>
 
 </div>
+</div>
 
+<!-- RECEIVE MODAL -->
+
+<div class="modal" id="requestModal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeModal('requestModal')">×</button>
+
+<h2>Receive Demo Money</h2>
+
+<p style="margin:15px 0;">
+Your demo account number:
+</p>
+
+<div class="notice">
+1234567890
+</div>
+
+<button class="primary" onclick="copyAccount()" style="width:100%;">
+Copy Account Number
+</button>
+
+</div>
+</div>
 
 <script>
 
-let currentAmount = 0;
+let balance = 50000;
 
+function showPage(page, button) {
 
-/* PAGE NAVIGATION */
+document.querySelectorAll(".page").forEach(p => {
+p.classList.remove("active");
+});
 
-function showPage(pageId, button) {
+document.getElementById(page).classList.add("active");
 
-    document.querySelectorAll(".page").forEach(page => {
-        page.classList.remove("active");
-    });
+document.querySelectorAll(".nav-btn").forEach(b => {
+b.classList.remove("active");
+});
 
-    const page = document.getElementById(pageId);
-
-    if (page) {
-        page.classList.add("active");
-    }
-
-    document.querySelectorAll(".nav button").forEach(btn => {
-        btn.classList.remove("active");
-    });
-
-    if (button) {
-        button.classList.add("active");
-    }
-
-    const titles = {
-        dashboard: "Dashboard",
-        send: "Send Money",
-        receive: "Receive Money",
-        trading: "Trading",
-        transactions: "Transactions",
-        account: "My Account"
-    };
-
-    document.getElementById("pageTitle").innerText =
-        titles[pageId] || "DemoBank";
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+if(button) {
+button.classList.add("active");
 }
 
-
-/* SEND MONEY */
-
-function confirmTransfer() {
-
-    const recipient = document.getElementById("recipient").value;
-    const name = document.getElementById("recipientName").value;
-    const amount = document.getElementById("sendAmount").value;
-
-    if (!recipient || !name || !amount) {
-
-        alert("Please complete the demo transfer form.");
-
-        return;
-    }
-
-    currentAmount = Number(amount);
-
-    document.getElementById("confirmationText").innerHTML =
-        "<strong>Recipient:</strong> " + name +
-        "<br><br>" +
-        "<strong>Demo Account:</strong> " + recipient +
-        "<br><br>" +
-        "<strong>Amount:</strong> ₦" +
-        Number(amount).toLocaleString();
-
-    document.getElementById("confirmModal")
-        .classList.add("show");
+window.scrollTo(0,0);
 }
 
-
-/* COMPLETE DEMO TRANSFER */
-
-function completeTransfer() {
-
-    alert(
-        "✓ Demo transfer completed!\n\n" +
-        "This was a simulation only. No real money was transferred."
-    );
-
-    closeModal();
-
-    document.getElementById("recipient").value = "";
-    document.getElementById("recipientName").value = "";
-    document.getElementById("sendAmount").value = "";
-    document.getElementById("description").value = "";
+function openSend() {
+document.getElementById("sendModal").classList.add("show");
 }
 
-
-/* CLOSE */
-
-function closeModal() {
-
-    document.getElementById("confirmModal")
-        .classList.remove("show");
+function openRequest() {
+document.getElementById("requestModal").classList.add("show");
 }
 
+function closeModal(id) {
+document.getElementById(id).classList.remove("show");
+}
 
-/* COPY DEMO ACCOUNT */
+function sendMoney() {
 
-function copyDemoAccount() {
+let recipient = document.getElementById("recipient").value;
+let amount = Number(document.getElementById("amount").value);
+let description = document.getElementById("description").value;
 
-    navigator.clipboard.writeText("482173591024");
+if(!recipient || !amount || amount <= 0) {
+alert("Please enter a demo recipient account number and amount.");
+return;
+}
 
-    alert(
-        "Demo account number copied:\n482173591024"
-    );
+if(amount > balance) {
+alert("Insufficient demo balance.");
+return;
+}
+
+balance -= amount;
+
+document.getElementById("balance").innerText =
+"₦" + balance.toLocaleString("en-NG", {
+minimumFractionDigits:2
+});
+
+let list = document.getElementById("transactionList");
+
+let item = document.createElement("li");
+
+item.innerHTML = `
+<div>
+<div class="transaction-name">Demo Transfer</div>
+<div class="transaction-date">
+To ${recipient}${description ? " • " + description : ""}
+</div>
+</div>
+<strong class="red">-₦${amount.toLocaleString("en-NG")}</strong>
+`;
+
+list.prepend(item);
+
+closeModal("sendModal");
+
+document.getElementById("recipient").value = "";
+document.getElementById("amount").value = "";
+document.getElementById("description").value = "";
+
+alert("Demo transfer successful! No real money was sent.");
+}
+
+function copyAccount() {
+
+navigator.clipboard.writeText("1234567890");
+
+alert("Demo account number copied.");
+
+}
+
+function createAccount() {
+
+let name = prompt(
+"Create a demo account\n\nEnter a nickname (no real banking information):"
+);
+
+if(name) {
+alert(
+"Demo account created for " +
+name +
+"!\n\nThis is only a simulation."
+);
+}
+
+}
+
+function toggleTheme() {
+document.body.classList.toggle("dark");
+}
+
+function showNotifications() {
+
+alert(
+"🔔 Notifications\n\n" +
+"• Welcome to DemoBank\n" +
+"• Your demo account is active\n" +
+"• No real transactions have been made"
+);
+
+}
+
+function searchTransactions(query) {
+
+let items = document.querySelectorAll("#history li");
+
+items.forEach(item => {
+
+let text = item.innerText.toLowerCase();
+
+item.style.display =
+text.includes(query.toLowerCase()) ? "flex" : "none";
+
+});
+
 }
 
 </script>
